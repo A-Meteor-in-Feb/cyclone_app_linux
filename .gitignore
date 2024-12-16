@@ -1,0 +1,5 @@
+cyclonedds/*
+cyclonedds-cxx/*
+cycloneddscore/*
+cycloneddscxx/*
+cyclonev1.2/build/
