@@ -96,7 +96,7 @@ const propvec &get_type_props<::VehicleData::steeringWheel_data>() {
     return props;
   props.clear();
 
-  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_mutable));  //root
+  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_final));  //root
   props.push_back(entity_properties_t(1, 0, false, bit_bound::bb_unset, extensibility::ext_final, false));  //::tele_id
   props.push_back(entity_properties_t(1, 1, false, get_bit_bound<int32_t>(), extensibility::ext_final, false));  //::lX
   props.push_back(entity_properties_t(1, 2, false, get_bit_bound<int32_t>(), extensibility::ext_final, false));  //::lY
@@ -122,7 +122,7 @@ const propvec &get_type_props<::VehicleData::joyStick_data>() {
     return props;
   props.clear();
 
-  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_mutable));  //root
+  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_final));  //root
   props.push_back(entity_properties_t(1, 0, false, bit_bound::bb_unset, extensibility::ext_final, false));  //::tele_id
   props.push_back(entity_properties_t(1, 1, false, get_bit_bound<int32_t>(), extensibility::ext_final, false));  //::lX
   props.push_back(entity_properties_t(1, 2, false, get_bit_bound<int32_t>(), extensibility::ext_final, false));  //::lZ
@@ -150,7 +150,7 @@ const propvec &get_type_props<::VehicleData::streamdeck_buttons_data>() {
     return props;
   props.clear();
 
-  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_mutable));  //root
+  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_final));  //root
   props.push_back(entity_properties_t(1, 0, false, get_bit_bound<int16_t>(), extensibility::ext_final, false));  //::buttons
 
   entity_properties_t::finish(props, keylist);
@@ -171,7 +171,7 @@ const propvec &get_type_props<::VehicleData::statistic_data>() {
     return props;
   props.clear();
 
-  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_mutable));  //root
+  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_final));  //root
   props.push_back(entity_properties_t(1, 0, false, get_bit_bound<double>(), extensibility::ext_final, false));  //::height
   props.push_back(entity_properties_t(1, 1, false, get_bit_bound<double>(), extensibility::ext_final, false));  //::depth
   props.push_back(entity_properties_t(1, 2, false, get_bit_bound<int16_t>(), extensibility::ext_final, false));  //::auto_flag
@@ -194,7 +194,7 @@ const propvec &get_type_props<::VehicleData::imu_data>() {
     return props;
   props.clear();
 
-  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_mutable));  //root
+  props.push_back(entity_properties_t(0, 0, false, bit_bound::bb_unset, extensibility::ext_final));  //root
   props.push_back(entity_properties_t(1, 0, false, bit_bound::bb_unset, extensibility::ext_final, false));  //::vehicle_id
   props.push_back(entity_properties_t(1, 1, false, bit_bound::bb_unset, extensibility::ext_final, false));  //::acc
   props.push_back(entity_properties_t(1, 2, false, bit_bound::bb_unset, extensibility::ext_final, false));  //::gyro

@@ -20,10 +20,10 @@ int main(int argc, char* argv[]) {
         vehicle_id = atoi(argv[2]);
     }
 
-    std::thread vehicle_publisher(run_publisher_application, vehicle_id);
+    //std::thread vehicle_publisher(run_publisher_application, vehicle_id);
     std::thread vehicle_subscriber(run_subscriber_application, vehicle_id);
 
-    vehicle_publisher.join();
+    //vehicle_publisher.join();
     vehicle_subscriber.join();
 
     return EXIT_SUCCESS;

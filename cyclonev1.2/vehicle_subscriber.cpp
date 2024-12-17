@@ -37,6 +37,8 @@ void run_subscriber_application(int vehicle_id) {
 				const VehicleData::steeringWheel_data& data = iter->data();
 				const dds::sub::SampleInfo& info = iter->info();
 
+				std::cout << "steeringWheel_data: " << data << std::endl;
+				
 				if (info.valid()) {
 					std::cout << "steeringWheel_data: " << data << std::endl;
 				}

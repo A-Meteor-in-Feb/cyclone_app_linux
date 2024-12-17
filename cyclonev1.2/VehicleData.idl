@@ -1,6 +1,6 @@
 module VehicleData{
 
-    @extensibility(MUTABLE)
+
     struct steeringWheel_data {
         string tele_id;
         long lX;
@@ -10,7 +10,7 @@ module VehicleData{
         unsigned long buttons;
     };
 
-    @extensibility(MUTABLE)
+
     struct joyStick_data {
         string tele_id;
         long lX;
@@ -22,19 +22,19 @@ module VehicleData{
         sequence<long, 2> rglSlider;
     };
 
-    @extensibility(MUTABLE)
+
     struct streamdeck_buttons_data {
         short buttons;
     };
 
-    @extensibility(MUTABLE)
+ 
     struct statistic_data {
         double height;
         double depth;
         short auto_flag;
     };
 
-    @extensibility(MUTABLE)
+
     struct imu_data {
         string vehicle_id;
         sequence<double, 3> acc;
