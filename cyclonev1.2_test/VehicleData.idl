@@ -1,0 +1,12 @@
+module VehicleData{
+
+    struct steeringWheel{
+        string vehicle_id;
+        long lX;
+        long lY;
+        long lRz;
+        long rglSlider_0;
+        unsigned long buttons;
+    };
+
+};

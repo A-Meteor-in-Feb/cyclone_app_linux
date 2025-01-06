@@ -2,23 +2,23 @@
 
 <CycloneDDS xmlns="https://cdds.io/config" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="https://cdds.io/config file:///home/tianjiao/cyclone_version/cyclonedds.xsd">
+    xsi:schemaLocation="https://cdds.io/config file:///C:/Users/NTU/Desktop/cyclonedds.xsd">
 
     <Domain Id="any">
 
         <Discovery>
 
             <Peers>
+                <Peer Address="10.8.0.6" />
                 <Peer Address="192.168.0.167" />
-                <Peer Address="192.168.0.45" />
             </Peers>
             
         </Discovery>
 
         <General>
-
-            <AllowMulticast>true</AllowMulticast>
-            
+            <Interfaces>
+                <NetworkInterface autodetermine="false" address="10.8.0.6" name="tun0" />
+            </Interfaces>
         </General>
 
         <Tracing>

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <atomic>
 
 #include "serial.h"
 #include "wit_c_sdk.h"
@@ -7,7 +8,7 @@
 
 #include "dds/dds.hpp"
 #include "shutdownsignal.hpp"
-#include "VehicleData.hpp"
+#include "ControlData.hpp"
 
 
 #define ACC_UPDATE		0x01
@@ -27,6 +28,15 @@ const int c_uiBaud[] = {2400 , 4800 , 9600 , 19200 , 38400 , 57600 , 115200 , 23
 static void AutoScanSensor(char* dev);
 static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
 static void Delayms(uint16_t ucMs);
+
+
+std::string publisher_control_partition_name = "none";
+
+void set_control_publisher_partition(std::string& partition_name){
+    publisher_control_partition_name = partition_name;
+}
+
+
 
 int serial_read_data(int fd, unsigned char *val, int len){
     len=read(fd,val,len);
@@ -181,7 +191,6 @@ static void AutoScanSensor(char* dev){
 		    iRetry = 2;
 
 		    do{
-        
 			      s_cDataUpdate = 0;
 			      WitReadReg(AX, 3);
 			      Delayms(200);
@@ -206,76 +215,93 @@ static void AutoScanSensor(char* dev){
 }
 
 
-void run_publisher_application(int vehicle_id){
-    
-    std::string vehicle_name = "vehilce" + std::to_string(vehicle_id);
+void control_domain_publisher(int& vehicle, std::atomic<bool>& control_ato){
 
-    int domain_id = 0;
+    while(!shutdown_requested){
 
-    dds::domain::DomainParticipant participant(domain_id);
+        if(publisher_control_partition_name != "none"){
 
-    dds::topic::Topic<VehicleData::imu_data> imu_topic(participant, "imu_data");
-    dds::topic::Topic<VehicleData::statistic_data> statistic_topic(participant, "statistic_data");
+            std::cout << "\n\n\n" << publisher_control_partition_name << std::endl;
 
-    dds::pub::Publisher vehicle_publisher(participant);
+            std::string vehicle_name = "vehilce" + std::to_string(vehicle);
 
-    dds::pub::DataWriter<VehicleData::imu_data> imu_writer(vehicle_publisher, imu_topic);
-    dds::pub::DataWriter<VehicleData::statistic_data> statistic_writer(vehicle_publisher, statistic_topic);
+            int control_domain = 1;
 
-    if((fd = serial_open((char*)"/dev/ttyUSB0", 9600) < 0 )){
-        std::cout << "open /dev/ttyUSB0 fail" << std::endl;
-    } else {
-        std::cout << "open /dev/ttyUSB0 success" << std::endl;
-    }
+            dds::domain::DomainParticipant participant(control_domain);
 
-    float fAcc[3], fGyro[3], fAngle[3];
-    int i, ret;
-    char cBuff[1];
+            dds::topic::Topic<ControlData::imu_data> imu_topic(participant, "imu_data");
+            dds::topic::Topic<ControlData::statistic_data> statistic_topic(participant, "statistic_data");
 
-    WitInit(WIT_PROTOCOL_NORMAL, 0x50);
-    WitRegisterCallBack(SensorDataUpdata);
-    AutoScanSensor((char*)"/dev/ttyUSB0");
-	
-	while(!shutdown_requested){
+            dds::pub::qos::PublisherQos pub_qos;
 
-        while(serial_read_data(fd, (unsigned char*)cBuff, 1)){
-            WitSerialDataIn(cBuff[0]);
+		    dds::core::StringSeq partition_name{ publisher_control_partition_name };
+
+		    pub_qos << dds::core::policy::Partition(partition_name);
+
+            dds::pub::Publisher vehicle_publisher0(participant, pub_qos);
+            dds::pub::Publisher vehicle_publisher1(participant);
+
+            dds::pub::DataWriter<ControlData::imu_data> imu_writer(vehicle_publisher0, imu_topic);
+            dds::pub::DataWriter<ControlData::statistic_data> statistic_writer(vehicle_publisher1, statistic_topic);
+
+
+            if((fd = serial_open((char*)"/dev/ttyUSB0", 9600) < 0 )){
+                std::cout << "open /dev/ttyUSB0 fail" << std::endl;
+            } else {
+                std::cout << "open /dev/ttyUSB0 success" << std::endl;
+            }
+
+            float fAcc[3], fGyro[3], fAngle[3];
+            int i, ret;
+            char cBuff[1];
+
+            WitInit(WIT_PROTOCOL_NORMAL, 0x50);
+            WitRegisterCallBack(SensorDataUpdata);
+            AutoScanSensor((char*)"/dev/ttyUSB0");
+
+            while(!shutdown_requested && publisher_control_partition_name != "none"){
+
+                while(serial_read_data(fd, (unsigned char*)cBuff, 1)){
+                    WitSerialDataIn(cBuff[0]);
+                }
+
+                Delayms(1000);
+
+                if(s_cDataUpdate){
+                    for(i = 0; i < 3; i++){
+                        fAcc[i] = sReg[AX+i] / 32768.0f * 16.0f;
+                        fGyro[i] = sReg[GX+i] / 32768.0f * 2000.0f;
+                        fAngle[i] = sReg[Roll+i] / 32768.0f * 180.0f;
+                    }
+
+                    if(s_cDataUpdate & ACC_UPDATE){
+                        s_cDataUpdate &= ~ACC_UPDATE;
+                    }
+
+                    if(s_cDataUpdate & GYRO_UPDATE){
+                        s_cDataUpdate &= ~GYRO_UPDATE;
+                    }
+
+                    if(s_cDataUpdate & ANGLE_UPDATE){
+                        s_cDataUpdate &= ~ANGLE_UPDATE;
+                    }
+
+                    if(s_cDataUpdate & MAG_UPDATE){
+                        s_cDataUpdate &= ~MAG_UPDATE;
+                    }
+
+                    ControlData::imu_data imu_data(vehicle_name, { fAcc[0], fAcc[1], fAcc[2] }, { fGyro[0], fGyro[1], fGyro[2] }, { fAngle[0], fAngle[1], fAngle[2] }, { static_cast<double>(sReg[HX]), static_cast<double>(sReg[HY]), static_cast<double>(sReg[HZ]) });
+                    imu_writer.write(imu_data);
+
+                }
+
+                ControlData::statistic_data statistic_data(1.1, 2.2, 0);
+                statistic_writer.write(statistic_data);
+            }
+
+            serial_close(fd);
+
         }
-
-        Delayms(1000);
-
-        if(s_cDataUpdate){
-            for(i = 0; i < 3; i++){
-                fAcc[i] = sReg[AX+i] / 32768.0f * 16.0f;
-                fGyro[i] = sReg[GX+i] / 32768.0f * 2000.0f;
-                fAngle[i] = sReg[Roll+i] / 32768.0f * 180.0f;
-            }
-
-            if(s_cDataUpdate & ACC_UPDATE){
-                s_cDataUpdate &= ~ACC_UPDATE;
-            }
-
-            if(s_cDataUpdate & GYRO_UPDATE){
-                s_cDataUpdate &= ~GYRO_UPDATE;
-            }
-
-            if(s_cDataUpdate & ANGLE_UPDATE){
-                s_cDataUpdate &= ~ANGLE_UPDATE;
-            }
-
-            if(s_cDataUpdate & MAG_UPDATE){
-                s_cDataUpdate &= ~MAG_UPDATE;
-            }
-
-            VehicleData::imu_data imu_data(vehicle_name, { fAcc[0], fAcc[1], fAcc[2] }, { fGyro[0], fGyro[1], fGyro[2] }, { fAngle[0], fAngle[1], fAngle[2] }, { static_cast<double>(sReg[HX]), static_cast<double>(sReg[HY]), static_cast<double>(sReg[HZ]) });
-            imu_writer.write(imu_data);
-
-        }
-
-        VehicleData::statistic_data statistic_data(1.1, 2.2, 0);
-        statistic_writer.write(statistic_data);
     }
-
-    serial_close(fd);
 
 }
