@@ -10,16 +10,10 @@
 
             <Peers>
                 <Peer Address="192.168.0.167" />
-                <Peer Address="10.8.0.6" />
+                <Peer Address="192.168.0.150" />
             </Peers>
             
         </Discovery>
-
-        <General>
-            <Interfaces>
-                <NetworkInterface autodetermine="false" address="10.8.0.6" name="tun0" />
-            </Interfaces>
-        </General>
 
         <Tracing>
             <Verbosity>config</Verbosity>
