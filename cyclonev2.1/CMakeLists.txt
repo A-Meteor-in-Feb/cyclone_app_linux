@@ -15,7 +15,7 @@ idlcxx_generate(TARGET controldata FILES ControlData.idl WARNINGS no-implicit-ex
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # add source files
-set(SOURCES entry.cpp control_publisher.cpp control_subscriber.cpp command_publisher.cpp command_subscriber.cpp ControlData.cpp wit_c_sdk.c shutdownsignal.cpp)
+set(SOURCES entry.cpp control_subscriber.cpp control_publisher.cpp command_publisher.cpp command_subscriber.cpp ControlData.cpp wit_c_sdk.c shutdownsignal.cpp)
 
 add_executable(vehicle_side ${SOURCES} "shutdownsignal.hpp" "serial.h")
 

@@ -46,6 +46,8 @@ void command_domain_publisher(int& vehicle, std::atomic<bool>& command_ato){
             ControlData::vehicle_status vehicle_status_data(vehicle_name, online, connected);
 
             status_writer.write(vehicle_status_data);
+
+            //std::this_thread::sleep_for(std::chrono::microseconds(20));
         }
 
         if(init && !command_ato.load()){
@@ -53,6 +55,8 @@ void command_domain_publisher(int& vehicle, std::atomic<bool>& command_ato){
             ControlData::vehicle_status vehicle_status_data(vehicle_name, online, connected);
 
             status_writer.write(vehicle_status_data);
+
+            //std::this_thread::sleep_for(std::chrono::microseconds(20));
         }
         
     }

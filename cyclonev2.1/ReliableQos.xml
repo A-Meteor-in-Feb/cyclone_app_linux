@@ -4,7 +4,7 @@
 
 	<qos_library name="myqos">
 		
-		<qos_profile name="qos_profile">
+		<qos_profile name="reliable_reader">
 			
 			<datareader_qos>
 				
@@ -17,6 +17,10 @@
 				</history>
 				
 			</datareader_qos>
+		
+		</qos_profile>
+
+		<qos_profile name="reliable_writer">
 			
 			<datawriter_qos>
 
