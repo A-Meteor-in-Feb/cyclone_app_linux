@@ -16,7 +16,7 @@ void set_control_subscriber_partition(std::string& partition_name){
 }
 
 
-void control_domain_subscriber(int& vehicle, std::atomic<bool>& control_ato) {
+void control_domain_subscriber(int& vehicle) {
 
     while(!shutdown_requested){
 

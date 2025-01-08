@@ -215,7 +215,7 @@ static void AutoScanSensor(char* dev){
 }
 
 
-void control_domain_publisher(int& vehicle, std::atomic<bool>& control_ato){
+void control_domain_publisher(int& vehicle){
 
     while(!shutdown_requested){
 

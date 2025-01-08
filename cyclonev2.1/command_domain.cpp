@@ -6,22 +6,30 @@
 #include "shutdownsignal.hpp"
 #include "ControlData.hpp"
 
-void update_state(bool online_state, bool connected_state);
-void set_control_publisher_partition(std::string& partition_name);
+
+//void set_control_publisher_partition(std::string& partition_name);
 void set_control_subscriber_partition(std::string& partition_name);
 
-void command_domain_subscriber(int& vehicle, std::atomic<bool>& command_ato, std::atomic<bool>& control_ato){
+
+void run_command_domain(int& vehicle){
 
     std::string vehicle_name = "vehicle" + std::to_string(vehicle);
+    bool online_state = true;
+    bool connected_state = false;
 
     int command_domain = 0;
 
     dds::domain::DomainParticipant command_participant(command_domain);
 
+    // ====== PUBLISHER ======
+    dds::pub::Publisher command_publisher(command_participant);
+    dds::topic::Topic<ControlData::vehicle_status> status_topic(command_participant, "vehicle_status");
+    dds::pub::DataWriter<ControlData::vehicle_status> status_writer(command_publisher, status_topic);
+
+
+    // ====== SUBSCRIBER ======
     dds::sub::qos::SubscriberQos sub_qos;
-
     dds::core::StringSeq partition_name{ vehicle_name };
-
     sub_qos << dds::core::policy::Partition(partition_name);
 
     dds::sub::Subscriber command_subscriber(command_participant, sub_qos);
@@ -58,25 +66,32 @@ void command_domain_subscriber(int& vehicle, std::atomic<bool>& command_ato, std
                     if(tele_id == "non-matched"){
 
                         std::cout << "non-matched teleop station for now ..." << std::endl;
-                        
-                        update_state(true, false);
-                        command_ato.store(true);
+
+                        online_state = true;
+                        connected_state = false;
+                        ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
+                        status_writer.write(vehicle_status_data);
 
                     } else {
 
                         std::cout << "match with teleop station: " << tele_id << std::endl;
 
-                        update_state(true, true);
-                        command_ato.store(true);
+                        online_state = true;
+                        connected_state = true;
+                        ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
+                        status_writer.write(vehicle_status_data);
 
                         std::string control_partition_name = data.tele_id() + data.vehicle_id();
-                        set_control_publisher_partition(control_partition_name);
+                        //set_control_publisher_partition(control_partition_name);
                         set_control_subscriber_partition(control_partition_name);
-                        control_ato.store(true);
 
                     }
                 }
             }
+        }else{
+            //std::cout << "not receiving any connection info" << std::endl;
+            ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
+            status_writer.write(vehicle_status_data);
         }
 
         discon_samples = discon_reader.take();
@@ -94,20 +109,13 @@ void command_domain_subscriber(int& vehicle, std::atomic<bool>& command_ato, std
 
                     std::cout << "Received Disconnection Msg: " << data.msg() << std::endl;
 
-                    update_state(false, false);
+                    ControlData::vehicle_status vehicle_status_data(vehicle_name, false, false);
+                    status_writer.write(vehicle_status_data);
 
-                    command_ato.store(true);
+                    std::string control_partition_name = "none";
 
-                    if(control_ato.load()){
-                        std::string control_partition_name = "none";
-
-                        set_control_publisher_partition(control_partition_name);
-                        set_control_subscriber_partition(control_partition_name);
-
-                        control_ato.store(false);
-                    }
-
-
+                    //set_control_publisher_partition(control_partition_name);
+                    set_control_subscriber_partition(control_partition_name);
                 }
             }
         }
