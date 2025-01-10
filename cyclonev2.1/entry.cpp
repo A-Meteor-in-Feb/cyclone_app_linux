@@ -8,9 +8,9 @@
 #include "shutdownsignal.hpp"
 
 
-void run_command_domain(int& vehicle);
-//void control_domain_publisher(int& vehicle);
-void control_domain_subscriber(int& vehicle);
+void run_command_domain(int& vehicle, std::atomic<bool>& run_controlPart);
+void control_domain_publisher(int& vehicle, std::atomic<bool>& run_controlPart);
+void control_domain_subscriber(int& vehicle, std::atomic<bool>& run_controlPart);
 
 
 int main(int argc, char* argv[]){
@@ -25,12 +25,14 @@ int main(int argc, char* argv[]){
 
         if(!shutdown_requested){
 
-            std::thread vehicle_command_domain(run_command_domain, std::ref(vehicle));
-            //std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle));
-            std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle));
+            std::atomic<bool> run_controlPart = false;
+
+            std::thread vehicle_command_domain(run_command_domain, std::ref(vehicle), std::ref(run_controlPart));
+            std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle), std::ref(run_controlPart));
+            std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle), std::ref(run_controlPart));
 
             vehicle_command_domain.join();
-            //vehicle_control_publisher.join();
+            vehicle_control_publisher.join();
             vehicle_control_subscriber.join();
         }
 

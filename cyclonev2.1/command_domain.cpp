@@ -1,21 +1,24 @@
 #include <string>
 #include <iostream>
 #include <atomic>
+#include <thread>
 
 #include "dds/dds.hpp"
 #include "shutdownsignal.hpp"
 #include "ControlData.hpp"
+#include "partitionName.hpp"
 
 
-//void set_control_publisher_partition(std::string& partition_name);
-void set_control_subscriber_partition(std::string& partition_name);
-
+//void control_domain_publisher(int& vehicle, std::string& contorl_partition_name);
+void control_domain_subscriber(int& vehicle, std::string& control_partition_name);
 
 void run_command_domain(int& vehicle){
 
     std::string vehicle_name = "vehicle" + std::to_string(vehicle);
     bool online_state = true;
     bool connected_state = false;
+
+    partitionName control_partition_name;
 
     int command_domain = 0;
 
@@ -46,6 +49,8 @@ void run_command_domain(int& vehicle){
     dds::sub::LoanedSamples<ControlData::connection_msg> con_samples;
     dds::sub::LoanedSamples<ControlData::disconnection_msg> discon_samples;
 
+    bool known = false;
+
     while(!shutdown_requested){
 
         con_samples = con_reader.take();
@@ -63,14 +68,16 @@ void run_command_domain(int& vehicle){
 
                     std::string tele_id = data.tele_id();
 
-                    if(tele_id == "non-matched"){
+                    if(tele_id == "known"){
 
                         std::cout << "non-matched teleop station for now ..." << std::endl;
 
+                        known = true;
+                        /*
                         online_state = true;
                         connected_state = false;
                         ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
-                        status_writer.write(vehicle_status_data);
+                        status_writer.write(vehicle_status_data);*/
 
                     } else {
 
@@ -81,14 +88,18 @@ void run_command_domain(int& vehicle){
                         ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
                         status_writer.write(vehicle_status_data);
 
-                        std::string control_partition_name = data.tele_id() + data.vehicle_id();
-                        //set_control_publisher_partition(control_partition_name);
-                        set_control_subscriber_partition(control_partition_name);
+                        std::string name = data.tele_id() + data.vehicle_id();
+                        std::cout << "partition name: " << name<< std::endl;
+                        //std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle), std::ref(name) );
+                        std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle), std::ref(name));
+
+                        //vehicle_control_publisher.join();
+                        vehicle_control_subscriber.join();
 
                     }
                 }
             }
-        }else{
+        }else if(!known){
             //std::cout << "not receiving any connection info" << std::endl;
             ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
             status_writer.write(vehicle_status_data);
@@ -112,12 +123,42 @@ void run_command_domain(int& vehicle){
                     ControlData::vehicle_status vehicle_status_data(vehicle_name, false, false);
                     status_writer.write(vehicle_status_data);
 
-                    std::string control_partition_name = "none";
-
-                    //set_control_publisher_partition(control_partition_name);
-                    set_control_subscriber_partition(control_partition_name);
+                    control_partition_name.setPartitionName("none");
+                    
                 }
             }
         }
     }
+}
+
+int main(int argc, char* argv[]) {
+
+	int vehicle_id = -1;
+
+	if (argc > 2 && strcmp(argv[1], "-id") == 0) {
+		vehicle_id = atoi(argv[2]);
+	}
+
+
+	try {
+
+		if (!shutdown_requested) {
+
+			run_command_domain(std::ref(vehicle_id));
+
+		}
+
+	}
+	catch (const std::exception& ex) {
+		// This will catch DDS exceptions
+		std::cerr << "Exception in run_publisher_application(): " << ex.what()
+			<< std::endl;
+		return EXIT_FAILURE;
+	}
+	catch (...) {
+		std::cerr << "Unknown Error :(" << std::endl;
+		return EXIT_FAILURE;
+	}
+
+	return EXIT_SUCCESS;
 }
