@@ -220,7 +220,7 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
     }
 
 
-    std::string vehicle_name = "vehilce" + std::to_string(vehicle);
+    std::string vehicle_id = "vehicle" + std::to_string(vehicle);
 
     int control_domain = 1;
 
@@ -281,7 +281,7 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
                 s_cDataUpdate &= ~MAG_UPDATE;
             }
 
-            ControlData::imu_data imu_data(vehicle_name, { fAcc[0], fAcc[1], fAcc[2] }, { fGyro[0], fGyro[1], fGyro[2] }, { fAngle[0], fAngle[1], fAngle[2] }, { static_cast<double>(sReg[HX]), static_cast<double>(sReg[HY]), static_cast<double>(sReg[HZ]) });
+            ControlData::imu_data imu_data({ fAcc[0], fAcc[1], fAcc[2] }, { fGyro[0], fGyro[1], fGyro[2] }, { fAngle[0], fAngle[1], fAngle[2] }, { static_cast<double>(sReg[HX]), static_cast<double>(sReg[HY]), static_cast<double>(sReg[HZ]) });
             imu_writer.write(imu_data);
 
         }

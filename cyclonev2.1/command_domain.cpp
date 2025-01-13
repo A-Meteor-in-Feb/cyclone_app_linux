@@ -9,12 +9,12 @@
 #include "partitionName.hpp"
 
 
-//void control_domain_publisher(int& vehicle, std::string& contorl_partition_name);
+void control_domain_publisher(int& vehicle, std::string& contorl_partition_name);
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name);
 
 void run_command_domain(int& vehicle){
 
-    std::string vehicle_name = "vehicle" + std::to_string(vehicle);
+    std::string vehicle_id = "vehicle" + std::to_string(vehicle);
     bool online_state = true;
     bool connected_state = false;
 
@@ -32,7 +32,7 @@ void run_command_domain(int& vehicle){
 
     // ====== SUBSCRIBER ======
     dds::sub::qos::SubscriberQos sub_qos;
-    dds::core::StringSeq partition_name{ vehicle_name };
+    dds::core::StringSeq partition_name{ vehicle_id };
     sub_qos << dds::core::policy::Partition(partition_name);
 
     dds::sub::Subscriber command_subscriber(command_participant, sub_qos);
@@ -73,11 +73,6 @@ void run_command_domain(int& vehicle){
                         std::cout << "non-matched teleop station for now ..." << std::endl;
 
                         known = true;
-                        /*
-                        online_state = true;
-                        connected_state = false;
-                        ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
-                        status_writer.write(vehicle_status_data);*/
 
                     } else {
 
@@ -85,15 +80,15 @@ void run_command_domain(int& vehicle){
 
                         online_state = true;
                         connected_state = true;
-                        ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
+                        ControlData::vehicle_status vehicle_status_data(vehicle_id, online_state, connected_state);
                         status_writer.write(vehicle_status_data);
 
                         std::string name = data.tele_id() + data.vehicle_id();
                         std::cout << "partition name: " << name<< std::endl;
-                        //std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle), std::ref(name) );
-                        std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle), std::ref(name));
+                        std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle), std::ref(name) );
+                        std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle), std::ref(name) );
 
-                        //vehicle_control_publisher.join();
+                        vehicle_control_publisher.join();
                         vehicle_control_subscriber.join();
 
                     }
@@ -101,10 +96,11 @@ void run_command_domain(int& vehicle){
             }
         }else if(!known){
             //std::cout << "not receiving any connection info" << std::endl;
-            ControlData::vehicle_status vehicle_status_data(vehicle_name, online_state, connected_state);
+            ControlData::vehicle_status vehicle_status_data(vehicle_id, online_state, connected_state);
             status_writer.write(vehicle_status_data);
         }
 
+        /*
         discon_samples = discon_reader.take();
 
         if(discon_samples.length() > 0){
@@ -120,33 +116,29 @@ void run_command_domain(int& vehicle){
 
                     std::cout << "Received Disconnection Msg: " << data.msg() << std::endl;
 
-                    ControlData::vehicle_status vehicle_status_data(vehicle_name, false, false);
+                    ControlData::vehicle_status vehicle_status_data(vehicle_id, false, false);
                     status_writer.write(vehicle_status_data);
 
                     control_partition_name.setPartitionName("none");
                     
                 }
             }
-        }
+        }*/
     }
 }
 
 int main(int argc, char* argv[]) {
 
-	int vehicle_id = -1;
+	int vehicle = -1;
 
 	if (argc > 2 && strcmp(argv[1], "-id") == 0) {
-		vehicle_id = atoi(argv[2]);
+		vehicle = atoi(argv[2]);
 	}
 
 
 	try {
 
-		if (!shutdown_requested) {
-
-			run_command_domain(std::ref(vehicle_id));
-
-		}
+		run_command_domain(std::ref(vehicle));
 
 	}
 	catch (const std::exception& ex) {
