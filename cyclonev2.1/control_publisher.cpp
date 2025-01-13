@@ -227,7 +227,7 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
     dds::domain::DomainParticipant participant(control_domain);
 
     dds::topic::Topic<ControlData::imu_data> imu_topic(participant, "imu_data");
-    //dds::topic::Topic<ControlData::statistic_data> statistic_topic(participant, "statistic_data");
+    dds::topic::Topic<ControlData::statistic_data> statistic_topic(participant, "statistic_data");
 
     dds::pub::qos::PublisherQos pub_qos;
 
@@ -236,10 +236,9 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
 	pub_qos << dds::core::policy::Partition(partition_name);
 
     dds::pub::Publisher vehicle_publisher(participant, pub_qos);
-    //dds::pub::Publisher vehicle_publisher1(participant);
 
     dds::pub::DataWriter<ControlData::imu_data> imu_writer(vehicle_publisher, imu_topic);
-    //dds::pub::DataWriter<ControlData::statistic_data> statistic_writer(vehicle_publisher1, statistic_topic);
+    dds::pub::DataWriter<ControlData::statistic_data> statistic_writer(vehicle_publisher, statistic_topic);
 
 
     float fAcc[3], fGyro[3], fAngle[3];
@@ -286,8 +285,8 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
 
         }
 
-        //ControlData::statistic_data statistic_data(1.1, 2.2, 0);
-        //statistic_writer.write(statistic_data);
+        ControlData::statistic_data statistic_data(1.1, 2.2, 0);
+        statistic_writer.write(statistic_data);
     }
 
     serial_close(fd);
