@@ -1,0 +1,142 @@
+1736824702.316385 [1] vehicle_si: config: Domain/General/MulticastRecvNetworkInterfaceAddresses/#text: preferred {}
+1736824702.316414 [1] vehicle_si: config: Domain/General/ExternalNetworkAddress/#text: auto {}
+1736824702.316422 [1] vehicle_si: config: Domain/General/ExternalNetworkMask/#text: 0.0.0.0 {}
+1736824702.316430 [1] vehicle_si: config: Domain/General/AllowMulticast/#text: default {}
+1736824702.316437 [1] vehicle_si: config: Domain/General/MulticastTimeToLive/#text: 32 {}
+1736824702.316444 [1] vehicle_si: config: Domain/General/DontRoute/#text: false {}
+1736824702.316451 [1] vehicle_si: config: Domain/General/Transport/#text: udp {}
+1736824702.316458 [1] vehicle_si: config: Domain/General/EnableMulticastLoopback/#text: true {}
+1736824702.316465 [1] vehicle_si: config: Domain/General/MaxMessageSize/#text: 14720 B {}
+1736824702.316472 [1] vehicle_si: config: Domain/General/MaxRexmitMessageSize/#text: 1456 B {}
+1736824702.316479 [1] vehicle_si: config: Domain/General/FragmentSize/#text: 1344 B {}
+1736824702.316486 [1] vehicle_si: config: Domain/General/RedundantNetworking/#text: false {}
+1736824702.316493 [1] vehicle_si: config: Domain/General/EntityAutoNaming/#text: empty {}
+1736824702.316501 [1] vehicle_si: config: Domain/General/EntityAutoNaming[@seed]: 832200698 1475588979 1070141807 2296914762 1118504484 231222540 1907853078 572125661 {}
+1736824702.316510 [1] vehicle_si: config: Domain/Sizing/ReceiveBufferSize/#text: 1 MiB {}
+1736824702.316517 [1] vehicle_si: config: Domain/Sizing/ReceiveBufferChunkSize/#text: 128 KiB {}
+1736824702.316525 [1] vehicle_si: config: Domain/Compatibility/StandardsConformance/#text: lax {}
+1736824702.316532 [1] vehicle_si: config: Domain/Compatibility/ExplicitlyPublishQosSetToDefault/#text: false {}
+1736824702.316538 [1] vehicle_si: config: Domain/Compatibility/ManySocketsMode/#text: single {}
+1736824702.316545 [1] vehicle_si: config: Domain/Compatibility/AssumeRtiHasPmdEndpoints/#text: false {}
+1736824702.316553 [1] vehicle_si: config: Domain/Discovery/Tag/#text:  {}
+1736824702.316560 [1] vehicle_si: config: Domain/Discovery/ExternalDomainId/#text: 1 {}
+1736824702.316567 [1] vehicle_si: config: Domain/Discovery/DSGracePeriod/#text: 30 s {}
+1736824702.316575 [1] vehicle_si: config: Domain/Discovery/Peers/Peer[@Address]: 192.168.0.150 {1}
+1736824702.316582 [1] vehicle_si: config: Domain/Discovery/Peers/Peer[@PruneDelay]: default {}
+1736824702.316589 [1] vehicle_si: config: Domain/Discovery/Peers/Peer[@Address]: 192.168.0.167 {1}
+1736824702.316596 [1] vehicle_si: config: Domain/Discovery/Peers/Peer[@PruneDelay]: default {}
+1736824702.316603 [1] vehicle_si: config: Domain/Discovery/Peers[@AddLocalhost]: default {}
+1736824702.316610 [1] vehicle_si: config: Domain/Discovery/ParticipantIndex/#text: -3 {}
+1736824702.316617 [1] vehicle_si: config: Domain/Discovery/MaxAutoParticipantIndex/#text: 99 {}
+1736824702.316624 [1] vehicle_si: config: Domain/Discovery/SPDPMulticastAddress/#text: 239.255.0.1 {}
+1736824702.316631 [1] vehicle_si: config: Domain/Discovery/SPDPInterval/#text: default {}
+1736824702.316638 [1] vehicle_si: config: Domain/Discovery/DefaultMulticastAddress/#text: auto {}
+1736824702.316645 [1] vehicle_si: config: Domain/Discovery/InitialLocatorPruneDelay/#text: 30 s {}
+1736824702.316652 [1] vehicle_si: config: Domain/Discovery/DiscoveredLocatorPruneDelay/#text: 1 min {}
+1736824702.316660 [1] vehicle_si: config: Domain/Discovery/Ports/Base/#text: 7400 {}
+1736824702.316667 [1] vehicle_si: config: Domain/Discovery/Ports/DomainGain/#text: 250 {}
+1736824702.316674 [1] vehicle_si: config: Domain/Discovery/Ports/ParticipantGain/#text: 2 {}
+1736824702.316681 [1] vehicle_si: config: Domain/Discovery/Ports/MulticastMetaOffset/#text: 0 {}
+1736824702.316688 [1] vehicle_si: config: Domain/Discovery/Ports/UnicastMetaOffset/#text: 10 {}
+1736824702.316695 [1] vehicle_si: config: Domain/Discovery/Ports/MulticastDataOffset/#text: 1 {}
+1736824702.316702 [1] vehicle_si: config: Domain/Discovery/Ports/UnicastDataOffset/#text: 11 {}
+1736824702.316709 [1] vehicle_si: config: Domain/Discovery/EnableTopicDiscoveryEndpoints/#text: false {}
+1736824702.316724 [1] vehicle_si: config: Domain/Discovery/LeaseDuration/#text: 10 s {}
+1736824702.316736 [1] vehicle_si: config: Domain/Tracing/Category/#text: fatal,error,warning,info,config {1}
+1736824702.316743 [1] vehicle_si: config: Domain/Tracing/OutputFile/#text: cyclonedds_1.log {1}
+1736824702.316751 [1] vehicle_si: config: Domain/Tracing/AppendToFile/#text: false {1}
+1736824702.316758 [1] vehicle_si: config: Domain/Tracing/PacketCaptureFile/#text:  {}
+1736824702.316765 [1] vehicle_si: config: Domain/Internal/DeliveryQueueMaxSamples/#text: 256 {}
+1736824702.316772 [1] vehicle_si: config: Domain/Internal/PrimaryReorderMaxSamples/#text: 128 {}
+1736824702.316779 [1] vehicle_si: config: Domain/Internal/SecondaryReorderMaxSamples/#text: 128 {}
+1736824702.316785 [1] vehicle_si: config: Domain/Internal/DefragUnreliableMaxSamples/#text: 4 {}
+1736824702.316792 [1] vehicle_si: config: Domain/Internal/DefragReliableMaxSamples/#text: 16 {}
+1736824702.316799 [1] vehicle_si: config: Domain/Internal/BuiltinEndpointSet/#text: writers {}
+1736824702.316806 [1] vehicle_si: config: Domain/Internal/MeasureHbToAckLatency/#text: false {}
+1736824702.316813 [1] vehicle_si: config: Domain/Internal/SynchronousDeliveryPriorityThreshold/#text: 0 {}
+1736824702.316820 [1] vehicle_si: config: Domain/Internal/SynchronousDeliveryLatencyBound/#text: inf {}
+1736824702.316827 [1] vehicle_si: config: Domain/Internal/MaxParticipants/#text: 0 {}
+1736824702.316834 [1] vehicle_si: config: Domain/Internal/AccelerateRexmitBlockSize/#text: 0 {}
+1736824702.316841 [1] vehicle_si: config: Domain/Internal/RetransmitMerging/#text: never {}
+1736824702.316848 [1] vehicle_si: config: Domain/Internal/RetransmitMergingPeriod/#text: 5 ms {}
+1736824702.316855 [1] vehicle_si: config: Domain/Internal/HeartbeatInterval/#text: 100 ms {}
+1736824702.316862 [1] vehicle_si: config: Domain/Internal/HeartbeatInterval[@min]: 5 ms {}
+1736824702.316869 [1] vehicle_si: config: Domain/Internal/HeartbeatInterval[@minsched]: 20 ms {}
+1736824702.316876 [1] vehicle_si: config: Domain/Internal/HeartbeatInterval[@max]: 8 s {}
+1736824702.316884 [1] vehicle_si: config: Domain/Internal/MaxQueuedRexmitBytes/#text: 512 KiB {}
+1736824702.316890 [1] vehicle_si: config: Domain/Internal/MaxQueuedRexmitMessages/#text: 200 {}
+1736824702.316897 [1] vehicle_si: config: Domain/Internal/WriterLingerDuration/#text: 1 s {}
+1736824702.316905 [1] vehicle_si: config: Domain/Internal/SocketReceiveBufferSize[@min]: default {}
+1736824702.316912 [1] vehicle_si: config: Domain/Internal/SocketReceiveBufferSize[@max]: default {}
+1736824702.316919 [1] vehicle_si: config: Domain/Internal/SocketSendBufferSize[@min]: 64 KiB {}
+1736824702.316926 [1] vehicle_si: config: Domain/Internal/SocketSendBufferSize[@max]: default {}
+1736824702.316933 [1] vehicle_si: config: Domain/Internal/NackDelay/#text: 100 ms {}
+1736824702.316940 [1] vehicle_si: config: Domain/Internal/AckDelay/#text: 10 ms {}
+1736824702.316947 [1] vehicle_si: config: Domain/Internal/AutoReschedNackDelay/#text: 3 s {}
+1736824702.316954 [1] vehicle_si: config: Domain/Internal/PreEmptiveAckDelay/#text: 10 ms {}
+1736824702.316961 [1] vehicle_si: config: Domain/Internal/SquashParticipants/#text: false {}
+1736824702.316968 [1] vehicle_si: config: Domain/Internal/SPDPResponseMaxDelay/#text: 0 s {}
+1736824702.316975 [1] vehicle_si: config: Domain/Internal/LateAckMode/#text: false {}
+1736824702.316982 [1] vehicle_si: config: Domain/Internal/RetryOnRejectBestEffort/#text: false {}
+1736824702.316988 [1] vehicle_si: config: Domain/Internal/GenerateKeyhash/#text: false {}
+1736824702.316996 [1] vehicle_si: config: Domain/Internal/MaxSampleSize/#text: 2147483647 B {}
+1736824702.317003 [1] vehicle_si: config: Domain/Internal/LivelinessMonitoring/#text: false {}
+1736824702.317010 [1] vehicle_si: config: Domain/Internal/LivelinessMonitoring[@StackTraces]: true {}
+1736824702.317017 [1] vehicle_si: config: Domain/Internal/LivelinessMonitoring[@Interval]: 1 s {}
+1736824702.317024 [1] vehicle_si: config: Domain/Internal/MonitorPort/#text: -1 {}
+1736824702.317037 [1] vehicle_si: config: Domain/Internal/PrioritizeRetransmit/#text: true {}
+1736824702.317044 [1] vehicle_si: config: Domain/Internal/UseMulticastIfMreqn/#text: 0 {}
+1736824702.317051 [1] vehicle_si: config: Domain/Internal/RediscoveryBlacklistDuration/#text: 0 s {}
+1736824702.317058 [1] vehicle_si: config: Domain/Internal/RediscoveryBlacklistDuration[@enforce]: false {}
+1736824702.317065 [1] vehicle_si: config: Domain/Internal/MultipleReceiveThreads/#text: default {}
+1736824702.317072 [1] vehicle_si: config: Domain/Internal/MultipleReceiveThreads[@maxretries]: 4294967295 {}
+1736824702.317080 [1] vehicle_si: config: Domain/Internal/Test/XmitLossiness/#text: 0 {}
+1736824702.317087 [1] vehicle_si: config: Domain/Internal/Watermarks/WhcLow/#text: 1 KiB {}
+1736824702.317094 [1] vehicle_si: config: Domain/Internal/Watermarks/WhcHigh/#text: 500 KiB {}
+1736824702.317101 [1] vehicle_si: config: Domain/Internal/Watermarks/WhcHighInit/#text: 30 KiB {}
+1736824702.317108 [1] vehicle_si: config: Domain/Internal/Watermarks/WhcAdaptive/#text: true {}
+1736824702.317116 [1] vehicle_si: config: Domain/Internal/BurstSize/MaxRexmit/#text: 1 MiB {}
+1736824702.317123 [1] vehicle_si: config: Domain/Internal/BurstSize/MaxInitTransmit/#text: 4294967295 {}
+1736824702.317130 [1] vehicle_si: config: Domain/Internal/BurstSize/MaxFragsRexmitSample/#text: 1 {}
+1736824702.317137 [1] vehicle_si: config: Domain/Internal/ExtendedPacketInfo/#text: true {}
+1736824702.317144 [1] vehicle_si: config: Domain/Internal/EnableExpensiveChecks/#text:  [ignored] {}
+1736824702.317151 [1] vehicle_si: config: Domain/TCP/NoDelay/#text: true {}
+1736824702.317159 [1] vehicle_si: config: Domain/TCP/Port/#text: -1 {}
+1736824702.317166 [1] vehicle_si: config: Domain/TCP/ReadTimeout/#text: 2 s {}
+1736824702.317172 [1] vehicle_si: config: Domain/TCP/WriteTimeout/#text: 2 s {}
+1736824702.317179 [1] vehicle_si: config: Domain/TCP/AlwaysUsePeeraddrForUnicast/#text: false {}
+1736824702.317186 [1] vehicle_si: config: Domain/SSL/Enable/#text: false {}
+1736824702.317193 [1] vehicle_si: config: Domain/SSL/CertificateVerification/#text: true {}
+1736824702.317200 [1] vehicle_si: config: Domain/SSL/VerifyClient/#text: true {}
+1736824702.317207 [1] vehicle_si: config: Domain/SSL/SelfSignedCertificates/#text: false {}
+1736824702.317214 [1] vehicle_si: config: Domain/SSL/KeystoreFile/#text: keystore {}
+1736824702.317221 [1] vehicle_si: config: Domain/SSL/KeyPassphrase/#text: secret {}
+1736824702.317228 [1] vehicle_si: config: Domain/SSL/Ciphers/#text: ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH {}
+1736824702.317235 [1] vehicle_si: config: Domain/SSL/EntropyFile/#text:  {}
+1736824702.317242 [1] vehicle_si: config: Domain/SSL/MinimumTLSVersion/#text: 1.3 {}
+1736824702.317249 [1] vehicle_si: config: Domain[@Id]: 1 {1}
+1736824702.317264 [1] vehicle_si: started at 1736824702.06317258 -- 2025-01-14 11:18:22+08:00
+1736824702.317270 [1] vehicle_si: Version: CycloneDDS 0.11.0 82f13655 
+1736824702.317277 [1] vehicle_si: udp initialized
+1736824702.317905 [1] vehicle_si: interfaces: lo udp/127.0.0.1(q1) wlp6s0 wireless udp/192.168.0.150(q9)
+1736824702.317921 [1] vehicle_si: wlp6s0: presumed flaky multicast, use for SPDP only
+1736824702.317930 [1] vehicle_si: selected interfaces: wlp6s0 (index 3 priority 0 mc {spdp})
+1736824702.317942 [1] vehicle_si: ownip: udp/192.168.0.150
+1736824702.317949 [1] vehicle_si: extmask: invalid/0 (not applicable)
+1736824702.317955 [1] vehicle_si: SPDP MC: udp/239.255.0.1
+1736824702.317962 [1] vehicle_si: default MC: udp/239.255.0.1
+1736824702.317968 [1] vehicle_si: SSM support included
+1736824702.318078 [1] vehicle_si: rtps_init: trying to find a free participant index
+1736824702.318099 [1] vehicle_si: failed to increase socket receive buffer size to 1048576 bytes, continuing with 425984 bytes
+1736824702.318118 [1] vehicle_si: failed to increase socket receive buffer size to 1048576 bytes, continuing with 425984 bytes
+1736824702.318129 [1] vehicle_si: rtps_init: uc ports: disc 7660 data 7661
+1736824702.318136 [1] vehicle_si: rtps_init: domainid 1 participantid 1
+1736824702.318142 [1] vehicle_si: Unicast Ports: discovery 7660 data 7661
+1736824702.318163 [1] vehicle_si: failed to increase socket receive buffer size to 1048576 bytes, continuing with 425984 bytes
+1736824702.318183 [1] vehicle_si: failed to increase socket receive buffer size to 1048576 bytes, continuing with 425984 bytes
+1736824702.318195 [1] vehicle_si: Multicast Ports: discovery 7650 data 7651 
+1736824702.318207 [1] vehicle_si: failed to increase socket receive buffer size to 1048576 bytes, continuing with 425984 bytes
+1736824702.318222 [1] vehicle_si: interface wlp6s0: transmit port 49526
+1736824702.318270 [1] vehicle_si: add_peer_address: add udp/192.168.0.150:7660 ... :7858 (prune delay 30000000000)
+1736824702.318318 [1] vehicle_si: add_peer_address: add udp/192.168.0.167:7660 ... :7858 (prune delay 30000000000)
+1736824702.318326 [1] vehicle_si: interface wlp6s0 has spdp multicast enabled, adding udp/239.255.0.1:7650@3 (never expiring)

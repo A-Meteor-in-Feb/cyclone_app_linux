@@ -11,6 +11,7 @@
 
 void control_domain_publisher(int& vehicle, std::string& contorl_partition_name);
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name);
+void control_streamdeck(int& vehicle, std::string& control_partition_name);
 
 void run_command_domain(int& vehicle){
 
@@ -87,10 +88,10 @@ void run_command_domain(int& vehicle){
                         std::cout << "partition name: " << name<< std::endl;
                         std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle), std::ref(name) );
                         std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle), std::ref(name) );
-
+                        std::thread vehicel_control_sreamdeck(control_streamdeck, std::ref(vehicle), std::ref(name) );
                         vehicle_control_publisher.join();
                         vehicle_control_subscriber.join();
-
+                        vehicel_control_sreamdeck.join();
                     }
                 }
             }

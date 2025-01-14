@@ -10,20 +10,20 @@
 
             <Peers>
                 <Peer Address="192.168.0.167" />
-                <Peer Address="10.8.0.6"/>
+                <Peer Address="192.168.0.150"/>
             </Peers>
             
         </Discovery>
-
+        <!--
         <General>
             <Interfaces>
-                <NetworkInterface autodetermine="false" address="10.8.0.6">
+                <NetworkInterface autodetermine="false" address="10.8.0.6"/>
             </Interfaces>
         </General>
-
+        -->
         <Tracing>
             <Verbosity>config</Verbosity>
-            <OutputFile>cyclonedds.log</OutputFile>
+            <OutputFile>cyclonedds_0.log</OutputFile>
             <AppendToFile>false</AppendToFile>
         </Tracing>
 
@@ -36,20 +36,20 @@
 
             <Peers>
                 <Peer Address="192.168.0.150" />
-                <Peer Address="10.8.0.6"/>
+                <Peer Address="192.168.0.167"/>
             </Peers>
             
         </Discovery>
-
+        <!--
         <General>
             <Interfaces>
-                <NetworkInterface autodetermine="false" address="10.8.0.6">
+                <NetworkInterface autodetermine="false" address="10.8.0.6"/>
             </Interfaces>
         </General>
-
+        -->
         <Tracing>
             <Verbosity>config</Verbosity>
-            <OutputFile>cyclonedds.log</OutputFile>
+            <OutputFile>cyclonedds_1.log</OutputFile>
             <AppendToFile>false</AppendToFile>
         </Tracing>
 
