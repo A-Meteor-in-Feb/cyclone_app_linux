@@ -8,9 +8,13 @@
 #include "shutdownsignal.hpp"
 #include "ControlData.hpp"
 #include "partitionName.hpp"
+#include "TimeStampLogger.h"
 
 
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name) {
+
+	const std::string filename1 = "vehicle_steeringWheel.txt";
+	const std::string filename2 = "vehicle_joystick.txt";
 
 	std::string name = control_partition_name;
 
@@ -42,6 +46,8 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 		sw_samples = steeringWheel_reader.take();
 
 		if (sw_samples.length() > 0) {
+			std::string timestamp = TimestampLogger::getTimestamp();
+			TimestampLogger::writeToFile(filename1, timestamp);
 
 			dds::sub::LoanedSamples<ControlData::steeringWheel_data>::const_iterator iter;
 			for (iter = sw_samples.begin(); iter < sw_samples.end(); ++iter) {
@@ -60,6 +66,8 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 		js_samples = joyStick_reader.take();
 
 		if (js_samples.length() > 0) {
+			std::string timestamp = TimestampLogger::getTimestamp();
+			TimestampLogger::writeToFile(filename2, timestamp);
 
 			dds::sub::LoanedSamples<ControlData::joyStick_data>::const_iterator iter;
 			for (iter = js_samples.begin(); iter < js_samples.end(); ++iter) {

@@ -10,6 +10,8 @@
 #include "shutdownsignal.hpp"
 #include "ControlData.hpp"
 #include "partitionName.hpp"
+#include "TimeStampLogger.h"
+
 
 #define ACC_UPDATE		0x01
 #define GYRO_UPDATE		0x02
@@ -209,6 +211,8 @@ static void AutoScanSensor(char* dev){
 
 void control_domain_publisher(int& vehicle, std::string& control_partition_name){
 
+    const std::string filename = "vehicle_imu.txt";
+
     std::string name = control_partition_name;
 
     std::cout << "start running publisher, partition: " << name << std::endl;
@@ -280,6 +284,9 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
 
             ControlData::imu_data imu_data({ fAcc[0], fAcc[1], fAcc[2] }, { fGyro[0], fGyro[1], fGyro[2] }, { fAngle[0], fAngle[1], fAngle[2] }, { static_cast<double>(sReg[HX]), static_cast<double>(sReg[HY]), static_cast<double>(sReg[HZ]) });
             imu_writer.write(imu_data);
+
+            std::string timestamp = TimestampLogger::getTimestamp();
+            TimestampLogger::writeToFile(filename, timestamp);
 
         }
     }

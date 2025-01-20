@@ -7,13 +7,15 @@
 #include "shutdownsignal.hpp"
 #include "ControlData.hpp"
 #include "partitionName.hpp"
-
+#include "TimeStampLogger.h"
 
 void control_domain_publisher(int& vehicle, std::string& contorl_partition_name);
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name);
 void control_streamdeck(int& vehicle, std::string& control_partition_name);
 
 void run_command_domain(int& vehicle){
+
+    const std::string filename = "vehicle_connection_msg.txt";
 
     std::string vehicle_id = "vehicle" + std::to_string(vehicle);
     bool online_state = true;
@@ -57,6 +59,9 @@ void run_command_domain(int& vehicle){
         con_samples = con_reader.take();
 
         if(con_samples.length() > 0){
+
+            std::string timestamp = TimestampLogger::getTimestamp();
+            TimestampLogger::writeToFile(filename, timestamp);
 
             dds::sub::LoanedSamples<ControlData::connection_msg>::const_iterator iter;
 

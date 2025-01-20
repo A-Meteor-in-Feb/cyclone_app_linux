@@ -17,7 +17,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # add source files - command_publisher.cpp  entry.cpp  
 set(SOURCES control_subscriber.cpp command_domain.cpp control_publisher.cpp control_streamdeck.cpp ControlData.cpp wit_c_sdk.c shutdownsignal.cpp)
 
-add_executable(vehicle_side ${SOURCES} "shutdownsignal.hpp" "serial.h")
+add_executable(vehicle_side ${SOURCES} "shutdownsignal.hpp" "serial.h" "TimeStampLogger.h")
 
 # Link both executables to idl data type library and ddscxx.
 target_link_libraries(vehicle_side PRIVATE CycloneDDS-CXX::ddscxx controldata)
