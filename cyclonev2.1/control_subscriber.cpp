@@ -10,6 +10,7 @@
 #include "partitionName.hpp"
 #include "TimeStampLogger.h"
 
+int count_recvStrw = 0;
 
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name) {
 
@@ -58,6 +59,7 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 				std::cout << "steeringWheel_data: " << data << std::endl;
 				
 				if (info.valid()) {
+					count_recvStrw += 1;
 					std::cout << "steeringWheel_data: " << data << std::endl;
 				}
 			}

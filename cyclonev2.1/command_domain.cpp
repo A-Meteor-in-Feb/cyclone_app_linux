@@ -13,6 +13,8 @@ void control_domain_publisher(int& vehicle, std::string& contorl_partition_name)
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name);
 void control_streamdeck(int& vehicle, std::string& control_partition_name);
 
+int count_ConMsg = 0;
+
 void run_command_domain(int& vehicle){
 
     const std::string filename = "vehicle_connection_msg.txt";
@@ -71,6 +73,8 @@ void run_command_domain(int& vehicle){
                 const dds::sub::SampleInfo& info = iter->info();
 
                 if(info.valid()){
+
+                    count_ConMsg += 1;
 
                     std::string tele_id = data.tele_id();
 
@@ -131,6 +135,12 @@ void run_command_domain(int& vehicle){
             }
         }*/
     }
+
+    std::cout << "Preparing shutdown ... " << std::endl;
+    std::cout << "Totally received connection msg from the command center: " << count_ConMsg << std::endl;
+    std::cout << "From vehicle side, totally 100 imu messages are sent." << std::endl;
+    std::cout << "From vehicle side, totallu 100 statistic data for streamdeck are sent." << std::endl;
+    
 }
 
 int main(int argc, char* argv[]) {
