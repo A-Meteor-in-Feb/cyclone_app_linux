@@ -45,11 +45,19 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
     while (!shutdown_requested) {
 
 		sw_samples = steeringWheel_reader.take();
+		js_samples = joyStick_reader.take();
 
-		if (sw_samples.length() > 0) {
+		if(sw_samples.length() > 0){
 			std::string timestamp = TimestampLogger::getTimestamp();
 			TimestampLogger::writeToFile(filename1, timestamp);
+		}
+		if(js_samples.length() > 0){
+			std::string timestamp = TimestampLogger::getTimestamp();
+			TimestampLogger::writeToFile(filename2, timestamp);
+		}
 
+		if (sw_samples.length() > 0) {
+			
 			dds::sub::LoanedSamples<ControlData::steeringWheel_data>::const_iterator iter;
 			for (iter = sw_samples.begin(); iter < sw_samples.end(); ++iter) {
 
@@ -65,11 +73,7 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 			}
 		}
 
-		js_samples = joyStick_reader.take();
-
 		if (js_samples.length() > 0) {
-			std::string timestamp = TimestampLogger::getTimestamp();
-			TimestampLogger::writeToFile(filename2, timestamp);
 
 			dds::sub::LoanedSamples<ControlData::joyStick_data>::const_iterator iter;
 			for (iter = js_samples.begin(); iter < js_samples.end(); ++iter) {
@@ -83,4 +87,7 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 			}
 		}   
 	}
+
+	std::cout << "Totally received controller msg from teleop: " << count_recvStrw << std::endl;
+
 }
