@@ -44,8 +44,7 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 
 	std::string timestamp;
 
-    //while (!shutdown_requested) {
-	for(int i=0 ; i < 205; i++) {
+    while (!shutdown_requested) {
 
 		sw_samples = steeringWheel_reader.take();
 		js_samples = joyStick_reader.take();

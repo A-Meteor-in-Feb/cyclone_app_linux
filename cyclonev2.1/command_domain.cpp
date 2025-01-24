@@ -58,7 +58,7 @@ void run_command_domain(int& vehicle){
     bool known = false;
     std::string timestamp;
 
-    while(!shutdown_requested.load(std::memory_order_acquire)){
+    while(!shutdown_requested){
 
         con_samples = con_reader.take();
 
@@ -104,8 +104,6 @@ void run_command_domain(int& vehicle){
                         vehicle_control_publisher.join();
                         vehicle_control_subscriber.join();
                         //vehicel_control_sreamdeck.join();
-
-                        shutdown_requested.store(true, std::memory_order_release);
                     }
                 }
             }
