@@ -58,7 +58,7 @@ void run_command_domain(int& vehicle){
     bool known = false;
     std::string timestamp;
 
-    while(!shutdown_requested){
+    while(!shutdown_requested.load(std::memory_order_acquire)){
 
         con_samples = con_reader.take();
 
@@ -104,6 +104,8 @@ void run_command_domain(int& vehicle){
                         vehicle_control_publisher.join();
                         vehicle_control_subscriber.join();
                         //vehicel_control_sreamdeck.join();
+
+                        shutdown_requested.store(true, std::memory_order_release);
                     }
                 }
             }
@@ -113,7 +115,7 @@ void run_command_domain(int& vehicle){
             status_writer.write(vehicle_status_data);
             timestamp = TimestampLogger::getTimestamp();
             std::cout << "publish status msg at: " << timestamp << std::endl;
-            std::this_thread::sleep_for(std::chrono::microseconds(3000));
+            std::this_thread::sleep_for(std::chrono::microseconds(3000000));
         }
 
         /*

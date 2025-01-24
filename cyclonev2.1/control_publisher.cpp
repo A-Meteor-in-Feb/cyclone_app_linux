@@ -19,7 +19,7 @@
 #define MAG_UPDATE		0x08
 #define READ_UPDATE		0x80
 
-int count_sentMsg0 = 50;
+int count_sentMsg0 = 200;
 
 static int fd, s_iCurBaud = 9600;
 static volatile char s_cDataUpdate = 0;
@@ -254,8 +254,9 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
 
     std::string timestamp;
 
-    while(!shutdown_requested && count_sentMsg0 > 0){
-
+    //while(!shutdown_requested && count_sentMsg0 > 0){
+    while(count_sentMsg0 > 0) {
+        
         while(serial_read_data(fd, (unsigned char*)cBuff, 1)){
             WitSerialDataIn(cBuff[0]);
         }
