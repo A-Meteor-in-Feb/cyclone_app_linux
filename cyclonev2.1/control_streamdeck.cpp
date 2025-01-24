@@ -3,12 +3,12 @@
 #include "ControlData.hpp"
 #include "TimeStampLogger.h"
 
-int count_sentMsg1 = 100;
+int count_sentMsg1 = 50;
 
 
 void control_streamdeck(int& vehicle, std::string& control_partition_name){
 
-    const std::string filename = "vehicle_streamdeck.txt";
+    //const std::string filename = "vehicle_streamdeck.txt";
 
 
     std::string name = control_partition_name;
@@ -37,8 +37,8 @@ void control_streamdeck(int& vehicle, std::string& control_partition_name){
         ControlData::statistic_data statistic_data(1.1, 2.2, 0);
         statistic_writer.write(statistic_data);
 
-        std::string timestamp = TimestampLogger::getTimestamp();
-        TimestampLogger::writeToFile(filename, timestamp);
+        //std::string timestamp = TimestampLogger::getTimestamp();
+        //TimestampLogger::writeToFile(filename, timestamp);
 
         count_sentMsg1 -= 1;
     }

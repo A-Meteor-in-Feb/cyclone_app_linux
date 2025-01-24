@@ -2,6 +2,7 @@
 #include <iostream>
 #include <atomic>
 #include <thread>
+#include <chrono>
 
 #include "dds/dds.hpp"
 #include "shutdownsignal.hpp"
@@ -11,13 +12,13 @@
 
 void control_domain_publisher(int& vehicle, std::string& contorl_partition_name);
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name);
-void control_streamdeck(int& vehicle, std::string& control_partition_name);
+//void control_streamdeck(int& vehicle, std::string& control_partition_name);
 
 int count_ConMsg = 0;
 
 void run_command_domain(int& vehicle){
 
-    const std::string filename = "vehicle_connection_msg.txt";
+    //const std::string filename = "vehicle_connection_msg.txt";
 
     std::string vehicle_id = "vehicle" + std::to_string(vehicle);
     bool online_state = true;
@@ -55,6 +56,7 @@ void run_command_domain(int& vehicle){
     dds::sub::LoanedSamples<ControlData::disconnection_msg> discon_samples;
 
     bool known = false;
+    std::string timestamp;
 
     while(!shutdown_requested){
 
@@ -62,8 +64,9 @@ void run_command_domain(int& vehicle){
 
         if(con_samples.length() > 0){
 
-            std::string timestamp = TimestampLogger::getTimestamp();
-            TimestampLogger::writeToFile(filename, timestamp);
+            timestamp = TimestampLogger::getTimestamp();
+            std::cout << "receive connection msg at: " << timestamp << std::endl;
+            //TimestampLogger::writeToFile(filename, timestamp);
 
             dds::sub::LoanedSamples<ControlData::connection_msg>::const_iterator iter;
 
@@ -97,10 +100,10 @@ void run_command_domain(int& vehicle){
                         std::cout << "partition name: " << name<< std::endl;
                         std::thread vehicle_control_publisher(control_domain_publisher, std::ref(vehicle), std::ref(name) );
                         std::thread vehicle_control_subscriber(control_domain_subscriber, std::ref(vehicle), std::ref(name) );
-                        std::thread vehicel_control_sreamdeck(control_streamdeck, std::ref(vehicle), std::ref(name) );
+                        //std::thread vehicel_control_sreamdeck(control_streamdeck, std::ref(vehicle), std::ref(name) );
                         vehicle_control_publisher.join();
                         vehicle_control_subscriber.join();
-                        vehicel_control_sreamdeck.join();
+                        //vehicel_control_sreamdeck.join();
                     }
                 }
             }
@@ -108,6 +111,9 @@ void run_command_domain(int& vehicle){
             //std::cout << "not receiving any connection info" << std::endl;
             ControlData::vehicle_status vehicle_status_data(vehicle_id, online_state, connected_state);
             status_writer.write(vehicle_status_data);
+            timestamp = TimestampLogger::getTimestamp();
+            std::cout << "publish status msg at: " << timestamp << std::endl;
+            std::this_thread::sleep_for(std::chrono::microseconds(3000));
         }
 
         /*
@@ -138,8 +144,8 @@ void run_command_domain(int& vehicle){
 
     std::cout << "Preparing shutdown ... " << std::endl;
     std::cout << "Totally received connection msg from the command center: " << count_ConMsg << std::endl;
-    std::cout << "From vehicle side, totally 100 imu messages are sent." << std::endl;
-    std::cout << "From vehicle side, totallu 100 statistic data for streamdeck are sent." << std::endl;
+    std::cout << "From vehicle side, totally 200 imu messages are sent." << std::endl;
+    //std::cout << "From vehicle side, totallu 50 statistic data for streamdeck are sent." << std::endl;
     
 }
 

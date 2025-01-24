@@ -14,8 +14,8 @@ int count_recvStrw = 0;
 
 void control_domain_subscriber(int& vehicle, std::string& control_partition_name) {
 
-	const std::string filename1 = "vehicle_steeringWheel.txt";
-	const std::string filename2 = "vehicle_joystick.txt";
+	//const std::string filename1 = "vehicle_steeringWheel.txt";
+	//const std::string filename2 = "vehicle_joystick.txt";
 
 	std::string name = control_partition_name;
 
@@ -42,18 +42,22 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 	dds::sub::LoanedSamples<ControlData::steeringWheel_data> sw_samples;
 	dds::sub::LoanedSamples<ControlData::joyStick_data> js_samples;
 
+	std::string timestamp;
+
     while (!shutdown_requested) {
 
 		sw_samples = steeringWheel_reader.take();
 		js_samples = joyStick_reader.take();
 
 		if(sw_samples.length() > 0){
-			std::string timestamp = TimestampLogger::getTimestamp();
-			TimestampLogger::writeToFile(filename1, timestamp);
+			timestamp = TimestampLogger::getTimestamp();
+			//TimestampLogger::writeToFile(filename1, timestamp);
+			std::cout << "receive steering wheel data at: " << timestamp << std::endl;
 		}
 		if(js_samples.length() > 0){
-			std::string timestamp = TimestampLogger::getTimestamp();
-			TimestampLogger::writeToFile(filename2, timestamp);
+			timestamp = TimestampLogger::getTimestamp();
+			//TimestampLogger::writeToFile(filename2, timestamp);
+			std::cout << "receive joystick data at: " << timestamp << std::endl;
 		}
 
 		if (sw_samples.length() > 0) {

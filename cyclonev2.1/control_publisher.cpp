@@ -19,7 +19,7 @@
 #define MAG_UPDATE		0x08
 #define READ_UPDATE		0x80
 
-int count_sentMsg0 = 100;
+int count_sentMsg0 = 50;
 
 static int fd, s_iCurBaud = 9600;
 static volatile char s_cDataUpdate = 0;
@@ -212,7 +212,7 @@ static void AutoScanSensor(char* dev){
 
 void control_domain_publisher(int& vehicle, std::string& control_partition_name){
 
-    const std::string filename = "vehicle_imu.txt";
+    //const std::string filename = "vehicle_imu.txt";
 
     std::string name = control_partition_name;
 
@@ -252,6 +252,8 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
     WitRegisterCallBack(SensorDataUpdata);
     AutoScanSensor((char*)"/dev/ttyUSB0");
 
+    std::string timestamp;
+
     while(!shutdown_requested && count_sentMsg0 > 0){
 
         while(serial_read_data(fd, (unsigned char*)cBuff, 1)){
@@ -286,14 +288,16 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
             ControlData::imu_data imu_data({ fAcc[0], fAcc[1], fAcc[2] }, { fGyro[0], fGyro[1], fGyro[2] }, { fAngle[0], fAngle[1], fAngle[2] }, { static_cast<double>(sReg[HX]), static_cast<double>(sReg[HY]), static_cast<double>(sReg[HZ]) });
             imu_writer.write(imu_data);
 
-            std::string timestamp = TimestampLogger::getTimestamp();
-            TimestampLogger::writeToFile(filename, timestamp);
+            timestamp = TimestampLogger::getTimestamp();
+            //TimestampLogger::writeToFile(filename, timestamp);
+            std::cout << "publish imu data at: " << timestamp << std::endl;
 
             count_sentMsg0 -= 1;
             
         }
     }
 
+    std::cout << "publish all data" << std::endl;
     serial_close(fd);
 
 }

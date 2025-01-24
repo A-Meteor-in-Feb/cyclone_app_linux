@@ -14,8 +14,8 @@ idlcxx_generate(TARGET controldata FILES ControlData.idl WARNINGS no-implicit-ex
 # include header files' path
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-# add source files - command_publisher.cpp  entry.cpp  
-set(SOURCES control_subscriber.cpp command_domain.cpp control_publisher.cpp control_streamdeck.cpp ControlData.cpp wit_c_sdk.c shutdownsignal.cpp)
+# add source files - command_publisher.cpp  entry.cpp control_streamdeck.cpp 
+set(SOURCES control_subscriber.cpp command_domain.cpp control_publisher.cpp ControlData.cpp wit_c_sdk.c shutdownsignal.cpp)
 
 add_executable(vehicle_side ${SOURCES} "shutdownsignal.hpp" "serial.h" "TimeStampLogger.h")
 
