@@ -68,11 +68,11 @@ void control_domain_subscriber(int& vehicle, std::string& control_partition_name
 				const ControlData::steeringWheel_data& data = iter->data();
 				const dds::sub::SampleInfo& info = iter->info();
 
-				std::cout << "steeringWheel_data: " << data << std::endl;
+				//std::cout << "steeringWheel_data: " << data << std::endl;
 				
 				if (info.valid()) {
 					count_recvStrw += 1;
-					std::cout << "steeringWheel_data: " << data << std::endl;
+					//std::cout << "steeringWheel_data: " << data << std::endl;
 				}
 			}
 		}
