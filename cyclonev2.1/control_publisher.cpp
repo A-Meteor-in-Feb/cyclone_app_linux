@@ -1,5 +1,7 @@
 #include <iostream>
 #include <atomic>
+#include <thread>
+#include <chrono>
 
 #include "serial.h"
 #include "wit_c_sdk.h"
@@ -253,10 +255,12 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
     AutoScanSensor((char*)"/dev/ttyUSB0");
 
     std::string timestamp;
+    const auto frame_duration = std::chrono::milliseconds(50);
 
     //while(!shutdown_requested && count_sentMsg0 > 0){
     while(count_sentMsg0 > 0) {
-        
+        auto start_time = std::chrono::steady_clock::now();
+
         while(serial_read_data(fd, (unsigned char*)cBuff, 1)){
             WitSerialDataIn(cBuff[0]);
         }
@@ -294,6 +298,11 @@ void control_domain_publisher(int& vehicle, std::string& control_partition_name)
             std::cout << "publish imu data at: " << timestamp << std::endl;
 
             count_sentMsg0 -= 1;
+
+            auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time);
+            if(elapsed_time < frame_duration){
+                std::this_thread::sleep_for(frame_duration - elapsed_time);
+            }
             
         }
     }
